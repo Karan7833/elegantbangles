@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>My Orders • Bangle Bar</title>
+  <link rel="icon" type="image/png" href="{{ url_for('static', filename='bblogo.png') }}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{--bg:#f5f7fb;--card:#ffffff;--text:#111827;--muted:#6b7280;--brand:#0ea5e9;--border:#e5e7eb}
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;background:var(--bg);color:var(--text)}
+    .container{max-width:900px;margin:24px auto;padding:0 16px}
+    .header{display:flex;align-items:center;gap:10px;margin:8px 0 18px}
+    .crumbs{font-size:13px;color:var(--muted)}
+    .card{background:var(--card);border:1px solid var(--border);border-radius:16px;box-shadow:0 8px 24px rgba(0,0,0,.06);padding:0}
+    .list{display:flex;flex-direction:column}
+    .order{display:grid;grid-template-columns:72px 1fr auto;gap:12px;align-items:center;padding:14px 16px}
+    .order+.order{border-top:1px solid var(--border)}
+    .thumb{width:72px;height:72px;border-radius:12px;background:#eef2f7;border:1px solid var(--border);object-fit:cover}
+    .muted{color:var(--muted)}
+    .name{font-weight:700}
+    .badge{display:inline-block;padding:4px 10px;border-radius:999px;border:1px solid var(--border);font-size:12px;color:#1f2937;background:#fff}
+    .total{font-weight:800}
+    .empty{padding:24px;text-align:center;color:var(--muted)}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <a class="crumbs" href="{{ url_for('home') }}">🏠 Home</a>
+      <span class="crumbs">/</span>
+      <span class="crumbs">My Orders</span>
+    </div>
+
+    <div class="card">
+      {% if orders %}
+      <div class="list">
+        {% for o in orders %}
+        <div class="order">
+          <img class="thumb" src="{{ (url_for('static', filename=o.first_image) if o.first_image and not o.first_image.startswith('http') and not o.first_image.startswith('/static/') else o.first_image) or url_for('static', filename='bangle2.png') }}" alt="{{ o.first_name }}">
+          <div>
+            <div class="name">Order #{{ o.id }}</div>
+            <div class="muted">{{ o.created_at }} • {{ o.count }} item(s)</div>
+            <div class="badge">{{ o.status|capitalize }}</div>
+          </div>
+          <div class="total">₹{{ '%.2f'|format(o.total or 0) }}</div>
+        </div>
+        {% endfor %}
+      </div>
+      {% else %}
+      <div class="empty">You have no orders yet.</div>
+      {% endif %}
+    </div>
+  </div>
+</body>
+</html>

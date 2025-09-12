@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Shopping Cart • Bangle Bar</title>
+  <!-- Fonts & Icons (optional) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="{{ url_for('static', filename='banglestyle.css') }}">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+
+</head>
+<body>
+  <div class="container">
+    <div class="cart-header">
+      <a class="crumbs header-actions" href="{{ url_for('shop') }}"> 🏠 Home</a>
+      <span class="crumbs">/</span>
+      <span class="crumbs">Cart</span>
+    </div>
+
+    <div class="grid">
+      <!-- Cart List -->
+      <div class="card">
+        {% set has_items = cart_items and cart_items|length > 0 %}
+        {% if has_items %}
+          <div class="cart-list" id="cartList">
+            {% for item in cart_items %}
+            <div class="cart-item" data-id="{{ item.id }}" data-price="{{ '%.2f' % item.price }}" data-max="{{ item.stock or 10 }}">
+              <div class="thumb">
+                <!-- <img src="{{ url_for('static', filename=item.image or 'placeholder.jpg') }}" alt="{{ item.name }}"> -->
+              </div>
+
+              <div class="item-meta">
+                <div class="item-title">{{ item.name }}</div>
+                <div class="muted">Size: {{ item.size or 'Free' }} • Color: {{ item.color or 'Default' }}</div>
+                {% if item.badge %}<span class="badge"><i class="fa-solid fa-bolt"></i>{{ item.badge }}</span>{% endif %}
+
+                <div class="chips">
+                  {% if item.returnable %}<span class="chip"><i class="fa-solid fa-rotate-left"></i> 7 Days Easy Return</span>{% endif %}
+                  {% if item.cod %}<span class="chip"><i class="fa-solid fa-indian-rupee-sign"></i> Cash on Delivery</span>{% endif %}
+                </div>
+
+                <div class="footer-actions">
+                  <div class="qty" data-role="qty">
+                    <button class="decr" aria-label="Decrease quantity"><i class="fa-solid fa-minus"></i></button>
+                    <input type="number" min="1" max="{{ item.stock or 10 }}" value="{{ item.qty or 1 }}" aria-label="Quantity">
+                    <button class="incr" aria-label="Increase quantity"><i class="fa-solid fa-plus"></i></button>
+                  </div>
+
+                  <div>
+                    <button class="icon-btn" data-action="save"><i class="fa-regular fa-bookmark"></i> Save for later</button>
+                    <button class="icon-btn" data-action="remove"><i class="fa-regular fa-trash-can"></i> Remove</button>
+                  </div>
+                </div>
+              </div>
+
+              <div style="text-align:right">
+                <div class="price">₹ <span data-role="item-amount">{{ '%.2f' % (item.price * (item.qty or 1)) }}</span></div>
+                {% if item.mrp and item.mrp > item.price %}
+                  <div class="strike">₹ {{ '%.2f' % item.mrp }}</div>
+                {% endif %}
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+
+          <div class="footer-actions" style="border-top:1px solid #eef0f5">
+            <a class="btn btn-outline" href="{{ url_for('shop') }}"><i class="fa-solid fa-arrow-left"></i> Continue Shopping</a>
+            <button id="clearCart" class="btn btn-danger"><i class="fa-regular fa-trash-can"></i> Clear Cart</button>
+          </div>
+        {% else %}
+          <div class="empty">
+            <img src="https://cdn.jsdelivr.net/gh/hjnilsson/country-flags/svg/in.svg" alt="" style="width:68px; opacity:.0;"/>
+            <h2>Your cart is empty</h2>
+            <p>Add gorgeous bangles and jewelry to your bag and shine ✨</p>
+            <div style="margin-top:12px">
+              <a class="btn btn-primary" href="{{ url_for('shop') }}"><i class="fa-solid fa-bag-shopping"></i> Start Shopping</a>
+            </div>
+          </div>
+        {% endif %}
+      </div>
+
+      <!-- Summary -->
+      <aside class="card summary" id="summary">
+        <h3>Order Summary</h3>
+        <div class="row"><span>Items</span> <strong id="sumItems">0</strong></div>
+        <div class="row"><span>Subtotal</span> <span>₹ <strong id="sumSubtotal">0.00</strong></span></div>
+        <div class="row"><span>Discount</span> <span>- ₹ <strong id="sumDiscount">0.00</strong></span></div>
+        <div class="row"><span>Shipping</span> <span>₹ <strong id="sumShipping">0.00</strong></span></div>
+        <div class="row"><span>Tax (18%)</span> <span>₹ <strong id="sumTax">0.00</strong></span></div>
+        <div class="divider"></div>
+        <div class="row total"><span>Total</span> <span>₹ <strong id="sumTotal">0.00</strong></span></div>
+
+        <div class="divider"></div>
+        <label class="muted" for="coupon">Have a coupon?</label>
+        <div class="coupon">
+          <input id="coupon" placeholder="Enter code (e.g. BANGLE10)" />
+          <button class="btn btn-outline" id="applyCoupon">Apply</button>
+        </div>
+        <p class="muted" style="margin:8px 0 0">Free shipping over ₹1,999</p>
+
+        <div style="margin-top:16px; display:flex; gap:8px; flex-direction:column">
+          <a class="btn btn-primary" href="{{ url_for('checkout') }}"><i class="fa-solid fa-credit-card"></i> Proceed to Checkout</a>
+          <a class="btn btn-outline" href="{{ url_for('shop') }}"><i class="fa-solid fa-arrow-left"></i> Continue Shopping</a>
+          <span class="notice"><i class="fa-solid fa-shield-halved"></i> Secure checkout · COD available</span>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <script>
+    (function(){
+      const list = document.getElementById('cartList');
+      const els = {
+        items: document.getElementById('sumItems'),
+        sub: document.getElementById('sumSubtotal'),
+        disc: document.getElementById('sumDiscount'),
+        ship: document.getElementById('sumShipping'),
+        tax: document.getElementById('sumTax'),
+        total: document.getElementById('sumTotal')
+      };
+
+      const state = {
+        coupon:null,
+        discount:0,
+        shipping:0,
+      };
+
+      function format(n){ return Number(n).toFixed(2); }
+
+      function recalc(){
+        if(!list){
+          // Empty cart
+          els.items.textContent = '0';
+          els.sub.textContent = '0.00';
+          els.disc.textContent = '0.00';
+          els.ship.textContent = '0.00';
+          els.tax.textContent = '0.00';
+          els.total.textContent = '0.00';
+          return;
+        }
+        let items = list.querySelectorAll('.cart-item');
+        let subtotal = 0, count = 0;
+        items.forEach(it => {
+          const price = parseFloat(it.dataset.price || '0');
+          const qty = Math.max(1, parseInt(it.querySelector('input[type=number]').value || '1'));
+          subtotal += price * qty;
+          count += qty;
+          it.querySelector('[data-role="item-amount"]').textContent = format(price * qty);
+        });
+
+        // Simple promo rules
+        const discount = state.coupon === 'BANGLE10' ? subtotal * 0.10 : 0;
+        const afterDisc = Math.max(0, subtotal - discount);
+        const shipping = afterDisc >= 1999 ? 0 : (afterDisc === 0 ? 0 : 99);
+        const tax = afterDisc * 0.18; // sample GST calculation
+        const total = afterDisc + shipping + tax;
+
+        els.items.textContent = count;
+        els.sub.textContent = format(subtotal);
+        els.disc.textContent = format(discount);
+        els.ship.textContent = format(shipping);
+        els.tax.textContent = format(tax);
+        els.total.textContent = format(total);
+      }
+
+      function clampQty(input){
+        const min = parseInt(input.getAttribute('min')||'1');
+        const max = parseInt(input.getAttribute('max')||'99');
+        let val = parseInt(input.value||min);
+        if(isNaN(val)) val = min; 
+        val = Math.min(Math.max(val, min), max);
+        input.value = val;
+      }
+
+      // Events: qty +/- , remove, save
+      if(list){
+        list.addEventListener('click', (e)=>{
+          const btn = e.target.closest('button');
+          if(!btn) return;
+          const item = e.target.closest('.cart-item');
+          if(btn.classList.contains('incr')){
+            const input = item.querySelector('input[type=number]');
+            input.value = parseInt(input.value||'1') + 1; clampQty(input); recalc();
+          }
+          if(btn.classList.contains('decr')){
+            const input = item.querySelector('input[type=number]');
+            input.value = parseInt(input.value||'1') - 1; clampQty(input); recalc();
+          }
+          if(btn.dataset.action === 'remove'){
+            item.remove();
+            if(!list.querySelector('.cart-item')){
+              location.reload(); // falls back to empty UI branch (server-rendered)
+            } else { recalc(); }
+          }
+          if(btn.dataset.action === 'save'){
+            btn.innerHTML = '<i class="fa-solid fa-bookmark"></i> Saved';
+          }
+        });
+
+        list.addEventListener('change', (e)=>{
+          const input = e.target.closest('input[type=number]');
+          if(input){ clampQty(input); recalc(); }
+        });
+      }
+
+      // Clear cart (client-side demo)
+      const clearBtn = document.getElementById('clearCart');
+      if(clearBtn){ clearBtn.addEventListener('click', ()=>{
+        if(confirm('Remove all items from cart?')){
+          list.querySelectorAll('.cart-item').forEach(n=>n.remove());
+          location.reload();
+        }
+      }); }
+
+      // Coupon
+      const couponInput = document.getElementById('coupon');
+      const applyCoupon = document.getElementById('applyCoupon');
+      if(applyCoupon){
+        applyCoupon.addEventListener('click', ()=>{
+          const code = (couponInput.value||'').trim().toUpperCase();
+          state.coupon = code;
+          recalc();
+          if(code === 'BANGLE10'){
+            applyCoupon.textContent = 'Applied';
+            applyCoupon.disabled = true;
+            applyCoupon.classList.add('btn-primary');
+          } else {
+            alert('Invalid coupon. Try BANGLE10');
+          }
+        });
+      }
+
+      // Initial calc
+      recalc();
+    })();
+  </script>
+</body>
+</html>

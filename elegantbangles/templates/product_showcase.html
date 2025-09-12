@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>BangleBar — Product Focus</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+  />
+
+  <style>
+    :root{
+      --bg:#ffffff;
+      --card:#f8fafc;
+      --border:#e5e7eb;
+      --text:#111827;
+      --muted:#6b7280;
+      --accent:#111827;
+      --accent-2:#0ea5e9;
+      --radius:16px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;background:var(--bg);color:var(--text);
+      font-family: ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial;
+    }
+
+    .wrap{max-width:1180px;margin:0 auto;padding:18px 16px 36px}
+    .page-title{font-size:1.4rem;font-weight:800;letter-spacing:.2px;margin:8px 0 16px}
+
+    /* Focus card (center product) */
+    .focus{
+      display:grid;grid-template-columns:1.1fr 1fr;gap:22px;
+      background:var(--card);border:1px solid var(--border);border-radius:var(--radius);
+      padding:18px;align-items:center;
+    }
+    @media (max-width:900px){ .focus{grid-template-columns:1fr} }
+
+    .focus-media{
+      background:#fff;border:1px solid var(--border);border-radius:14px;
+      display:flex;align-items:center;justify-content:center;min-height:360px;
+      overflow:hidden;
+    }
+    .focus-media img{width:100%;height:100%;object-fit:contain}
+
+    .focus-info h1{font-size:1.35rem;margin:0 0 8px}
+    .focus-meta{color:var(--muted);font-size:.95rem;margin-bottom:10px}
+    .price{font-size:1.4rem;font-weight:800;margin:8px 0}
+    .chip{display:inline-block;padding:6px 10px;border-radius:999px;border:1px solid var(--border);font-size:.8rem;margin-right:6px;margin-top:6px}
+
+    .cta-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+    .btn{
+      border:1px solid var(--accent);background:var(--accent);color:#fff;padding:10px 14px;border-radius:12px;
+      cursor:pointer;font-weight:700;
+    }
+    .btn.secondary{background:#fff;color:var(--accent);border-color:var(--border)}
+    .btn:active{transform:translateY(1px)}
+
+    /* Gallery strip (click to select) */
+    .strip{
+      display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:12px;margin:18px 0 6px;
+    }
+    .thumb{
+      border:1px solid var(--border);border-radius:12px;background:#fff;cursor:pointer;overflow:hidden;
+      position:relative;transition:transform .12s ease;
+    }
+    .thumb:hover{transform:translateY(-2px)}
+    .thumb img{width:100%;height:110px;object-fit:cover;display:block}
+    .thumb .t-meta{
+      position:absolute;left:8px;bottom:8px;background:rgba(255,255,255,.92);
+      padding:4px 6px;border-radius:8px;font-size:.78rem;color:var(--text);
+      border:1px solid var(--border);
+    }
+
+    /* Related grid */
+    .rel-title{display:flex;align-items:center;gap:8px;margin:18px 0 8px}
+    .rel-title h2{font-size:1.05rem;margin:0}
+    .rel-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+    @media (max-width:1000px){ .rel-grid{grid-template-columns:repeat(3,1fr)} }
+    @media (max-width:700px){ .rel-grid{grid-template-columns:repeat(2,1fr)} }
+
+    .card{
+      background:#fff;border:1px solid var(--border);border-radius:14px;overflow:hidden;
+      display:flex;flex-direction:column;
+    }
+    .card img{width:100%;height:170px;object-fit:cover}
+    .card .c-body{padding:10px}
+    .title{font-size:.98rem;font-weight:700;margin:0 0 4px}
+    .muted{color:var(--muted);font-size:.85rem}
+    .c-foot{
+      display:flex;align-items:center;justify-content:space-between;padding:10px;border-top:1px solid var(--border)
+    }
+    .link-btn{background:#fff;border:1px solid var(--border);border-radius:10px;padding:6px 10px;cursor:pointer}
+    .like{border:1px solid var(--border);background:#fff;width:34px;height:34px;border-radius:10px;display:grid;place-items:center;cursor:pointer}
+    .badge{font-size:.78rem;border:1px dashed var(--border);padding:4px 8px;border-radius:999px}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="page-title">Explore our designs</div>
+
+    <!-- Focus (selected product shows here) -->
+    <section class="focus" id="focus">
+      <div class="focus-media">
+        <img id="focus-img" src="" alt="Selected product">
+      </div>
+      <div class="focus-info">
+        <h1 id="focus-title">—</h1>
+        <div class="focus-meta">
+          <span id="focus-category"></span> • <span id="focus-rating"></span> ★
+        </div>
+        <div class="price" id="focus-price">₹—</div>
+        <div id="focus-tags"></div>
+
+        <div class="cta-row">
+          <button class="btn" id="btn-add"><i class="fa fa-cart-plus"></i> Add to Cart</button>
+          <button class="btn secondary" id="btn-buy"><i class="fa fa-bolt"></i> Buy Now</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Clickable strip (all products) -->
+    <div class="strip" id="strip"></div>
+
+    <!-- Related products -->
+    <div class="rel-title">
+      <h2>Related products</h2>
+      <span class="badge" id="rel-badge">—</span>
+    </div>
+    <div class="rel-grid" id="related"></div>
+  </div>
+
+  <script>
+    // ---- Demo data (replace with Flask data if you want) ----
+    // Tip for Flask: pass products via Jinja as JSON:
+    // const PRODUCTS = {{ products | tojson }};
+    const PRODUCTS = [
+      {id:1, title:"Traditional Gold Bangles", price:1599, img:"/static/bangle4.png",  category:"bangles", rating:4.6, tags:["Nickel-free","Lightweight"]},
+      {id:2, title:"Elegant Silver Bangles",   price:849,  img:"/static/bangle3.png",  category:"bangles", rating:4.3, tags:["Skin-safe","Daily wear"]},
+      {id:3, title:"Colorful Bangles Set",     price:499,  img:"/static/bangle2.png",  category:"bangles", rating:4.2, tags:["Festive","Set of 8"]},
+      {id:4, title:"Bridal Kangan Set",        price:2199, img:"/static/bangle5.png",  category:"bangles", rating:4.8, tags:["Bridal","Premium"]},
+      {id:5, title:"Minimal Gold Ring",        price:1299, img:"/static/ring_minimal.jpg",  category:"rings",   rating:4.5, tags:["New","14K plated"]},
+      {id:6, title:"Statement Stone Ring",     price:1799, img:"/static/ring_stone.jpg",    category:"rings",   rating:4.4, tags:["AAA Zircon","Adjustable"]},
+      {id:7, title:"Pearl Drop Earrings",      price:999,  img:"/static/earring_pearl.jpg", category:"earrings",rating:4.1, tags:["Classic","Gift pick"]},
+      {id:8, title:"Hoop Earrings Set",        price:899,  img:"/static/earring_hoop.jpg",  category:"earrings",rating:4.0, tags:["3 sizes","Lightweight"]},
+    ];
+
+    // ---- Helpers ----
+    const $ = (s, p=document) => p.querySelector(s);
+    const $$ = (s, p=document) => Array.from(p.querySelectorAll(s));
+    const focusImg = $("#focus-img");
+    const focusTitle = $("#focus-title");
+    const focusCat = $("#focus-category");
+    const focusRating = $("#focus-rating");
+    const focusPrice = $("#focus-price");
+    const focusTags = $("#focus-tags");
+    const strip = $("#strip");
+    const related = $("#related");
+    const relBadge = $("#rel-badge");
+
+    function money(n){ return "₹" + n.toLocaleString("en-IN"); }
+
+    function renderStrip(list){
+      strip.innerHTML = "";
+      list.forEach(p=>{
+        const el = document.createElement("button");
+        el.className = "thumb";
+        el.setAttribute("aria-label", `Select ${p.title}`);
+        el.innerHTML =
+          `<img src="${p.img}" alt="${p.title}">
+           <span class="t-meta">${money(p.price)}</span>`;
+        el.addEventListener("click", ()=> setFocus(p.id));
+        strip.appendChild(el);
+      });
+    }
+
+    function setFocus(id){
+      const p = PRODUCTS.find(x=>x.id===id);
+      if(!p) return;
+      // update focus
+      focusImg.src = p.img;
+      focusImg.alt = p.title;
+      focusTitle.textContent = p.title;
+      focusCat.textContent = p.category.charAt(0).toUpperCase()+p.category.slice(1);
+      focusRating.textContent = p.rating.toFixed(1);
+      focusPrice.textContent = money(p.price);
+      focusTags.innerHTML = p.tags.map(t=>`<span class="chip">${t}</span>`).join("");
+
+      // update related (same category + exclude current)
+      const rel = PRODUCTS.filter(x=>x.category===p.category && x.id!==p.id).slice(0,8);
+      relBadge.textContent = p.category;
+      renderRelated(rel);
+      // scroll focus into view on mobile
+      if (window.innerWidth < 900) {
+        document.getElementById("focus").scrollIntoView({behavior:"smooth", block:"start"});
+      }
+    }
+
+    function renderRelated(list){
+      related.innerHTML = "";
+      list.forEach(p=>{
+        const card = document.createElement("div");
+        card.className = "card";
+        card.innerHTML =
+          `<img src="${p.img}" alt="${p.title}">
+           <div class="c-body">
+             <div class="title">${p.title}</div>
+             <div class="muted">${p.rating.toFixed(1)} ★ • ${p.category}</div>
+             <div class="price">${money(p.price)}</div>
+           </div>
+           <div class="c-foot">
+             <button class="link-btn" aria-label="View ${p.title}">View</button>
+             <button class="like" aria-label="Add ${p.title} to wishlist"><i class="fa-regular fa-heart"></i></button>
+           </div>`;
+        // clicking the card focuses this product
+        card.addEventListener("click", ()=> setFocus(p.id));
+        related.appendChild(card);
+      });
+    }
+
+    // initial render
+    renderStrip(PRODUCTS);
+    setFocus(PRODUCTS[0].id);
+
+    // (Optional) Wire buttons
+    document.getElementById("btn-add").onclick = ()=> alert("Added to cart!");
+    document.getElementById("btn-buy").onclick = ()=> alert("Proceed to checkout!");
+  </script>
+</body>
+</html>
