@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>karan's Portfolio</title>
+    <link rel="stylesheet" href="logregstyle.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&display=swap" rel="stylesheet" />
+    <script defer src="script.js"></script>
+     <style>
+    #certificateImage {
+      display: none;
+      max-width: 100%;
+      border: 2px solid #333;
+    }
+  </style>
+</head>
+
+<body>
+    <!-- Header & Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+        <div class="container-fluid">
+            <a class="navbar-brand fw-bold" href="#">Karan's Portfolio</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item"><a class="nav-link active" href="#home">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#projects" data-bs-toggle="dropdown">Projects</a>
+                        <ul class="dropdown-menu dropdown-menu-dark">
+                            <li><a class="dropdown-item" href="#elegantbangles">Elegant Bangles</a></li>
+                            <li><a class="dropdown-item" href="#chatingapp">Chatting app</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <section id="home" class="hero-section text-center">
+        <div class="hero-content">
+            <div class="typewriter-wrapper">
+                <h1 class="typewriter-text">
+                    Hello, I'm <span>Karan Rathour</span>
+                </h1>
+            </div>
+
+            <div>
+                <a href="https://www.instagram.com/rathour_karaan/" target="_blank" class="text-danger mx-3 fs-3"><i
+                        class="fab fa-instagram"></i></a>
+                <a href="https://wa.me/917452916102" target="_blank" class="text-success mx-3 fs-3"><i
+                        class="fab fa-whatsapp"></i></a>
+                <a href="https://github.com/dashboard" target="_blank" class="text-light mx-3 fs-3"><i
+                        class="fab fa-github"></i></a>
+                <a href="https://www.linkedin.com/in/karan-rathour-265128315/" target="_blank"
+                    class="text-primary mx-3 fs-3"><i class="fab fa-linkedin"></i></a>
+            </div>
+            <p class="web">Web Developer | Designer | Freelancer</p>
+            <a href="#projects" class="btn btn-light btn-lg">View My Work</a>
+        </div>
+        <!-- Skills & Qualification -->
+        <div class="d-flex flex-wrap justify-content-center mt-4">
+            <div class="skills-card m-2">
+                <h2>Technical Skills</h2>
+                <div class="skill-item"><i>✅</i> Python</div>
+                <div class="skill-item"><i>✅</i> C++</div>
+                <div class="skill-item"><i>✅</i> JavaScript</div>
+                <div class="skill-item"><i>✅</i> HTML, CSS</div>
+                <div class="skill-item"><i>✅</i> DBMS</div>
+                <div class="skill-item php"><i>🟡</i> PHP – 1/4 complete</div>
+                <div class="php-progress">
+                    <div class="php-progress-bar"></div>
+                </div>
+            </div>
+            <div class="skills-card m-2">
+                <h2>Academic Qualification</h2>
+                <div class="skill-item"><i>✅</i> 10th from UP BOARD</div>
+                <div class="skill-item"><i>✅</i> 12th from UP BOARD</div>
+                <div class="skill-item php"><i>🟡</i> BCA (DBRAU) - 5th Sem</div>
+                <div class="php-progress">
+                    <div class="bca-progress-bar"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="about text-center py-5">
+        <h2>About Me</h2>
+       <p>
+  Hello! I'm <strong>Karan Rathour</strong>, a passionate and self-driven web developer currently pursuing my Bachelor of Computer Applications (BCA). With a strong foundation in front-end technologies like HTML, CSS, and JavaScript, along with backend knowledge of Python and PHP, I enjoy transforming ideas into interactive and user-friendly digital experiences. I have also worked with tools like Bootstrap and MySQL, and I’m currently expanding my skills in full-stack development.
+  <br><br>
+  My journey in programming began with curiosity and evolved into a deep commitment to learning and building. Whether it’s developing responsive websites, creating real-time chat applications, or designing UI/UX layouts, I focus on writing clean, maintainable code that solves real-world problems. I’ve completed multiple personal projects like e-commerce websites and weather apps, and I continue to challenge myself with new technologies and frameworks.
+  <br><br>
+  Apart from coding, I enjoy creative problem-solving and collaborating on projects that make a difference. I believe in continuous learning and staying updated with the latest trends in web development. My goal is to become a skilled full-stack developer and contribute to innovative projects that push the boundaries of technology.
+  <br><br>
+  If you're looking for someone who is hardworking, eager to grow, and dedicated to building meaningful digital solutions — I’d love to connect!
+</p>
+
+    </section>
+
+    <!-- Education -->
+    <section id="education" class="py-5 bg-light">
+        <div class="container">
+            <h2 class="text-center mb-4">Education</h2>
+            <div class="row justify-content-center">
+                <div class="col-md-6 mb-4">
+                    <div class="card shadow-sm h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">BCA</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">Dr Bhimrao Ambedkar University, Agra (2023-2026)
+                            </h6>
+                            <ul class="text-muted">
+                                <li>CGPA: 7.9 (Till 4th Sem)</li>
+                                <li>Certificate: Cisco Python <i class="fa-solid fa-images"></i>  <a     id="viewButton">    : View Certificate</a>
+  <img id="certificateImage" src="certificate.jpg" alt="Certificate">
+</li>
+                                <li>Full-stack projects: Python, JS & MySQL</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services -->
+    <section id="services" class="section text-center py-5">
+        <h2 class="section-title">Services</h2>
+        <div class="card-container d-flex justify-content-center flex-wrap">
+            <div class="card m-2 p-3">
+                <i class="fas fa-code fa-2x"></i>
+                <h3>Web Development</h3>
+                <p>Modern, responsive websites using HTML, CSS, JS & more.</p>
+            </div>
+            <div class="card m-2 p-3">
+                <i class="fas fa-paint-brush fa-2x"></i>
+                <h3>UI/UX Design</h3>
+                <p>Clean, creative and user-friendly interface design.</p>
+            </div>
+            <div class="card m-2 p-3">
+                <i class="fas fa-mobile-alt fa-2x"></i>
+                <h3>Responsive Design</h3>
+                <p>Ensuring your site looks great on all devices.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects -->
+    <section id="projects" class="section dark text-center py-5">
+        <h2 class="section-title">Projects</h2>
+        <div class="card-container d-flex justify-content-center flex-wrap">
+            <div class="card m-2">
+                <img src="https://via.placeholder.com/300x200" alt="Elegant Bangles" />
+                <h3 id="elegantbangles">Elegant Bangles</h3>
+                <p>Jewelry e-commerce site with stunning front-end catalog.</p>
+                <p class="tags">HTML | CSS | JS | PHP</p>
+                <a href="#" class="project-btn">Live Demo</a>
+            </div>
+            <div class="card m-2">
+                <img src="https://via.placeholder.com/300x200" alt="Chatting app" />
+                <h3 id="chatingapp">Chatting app</h3>
+                <p class="tags">Python | MySQL | HTML | Bootstrap</p>
+                <a href="#" class="project-btn">GitHub</a>
+            </div>
+            <div class="card m-2">
+                <img src="https://via.placeholder.com/300x200" alt="Weather App" />
+                <h3>Weather App</h3>
+                <p>Real-time weather app using OpenWeather API & JS fetch.</p>
+                <p class="tags">HTML | CSS | JS | API</p>
+                <a href="#" class="project-btn">Live Demo</a>
+            </div>
+            <div class="card m-2">
+                <img src="https://via.placeholder.com/300x200" alt="Portfolio" />
+                <h3>Personal Portfolio</h3>
+                <p>Clean responsive portfolio to showcase my web dev skills.</p>
+                <p class="tags">HTML | CSS | JS</p>
+                <a href="#" class="project-btn">Live Demo</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Form -->
+    <section id="contact" class="p-5 bg-light">
+        <div class="container text-center">
+            <h2>Contact Me</h2>
+            <p>Email: karanrathour1811@gmail.com</p>
+            <p>Phone: +91 7452916102</p>
+            <form action="https://formspree.io/f/xqalykbl" method="POST" class="mx-auto" style="max-width:400px;">
+                <div class="mb-3">
+                    <input name="name" required type="text" class="form-control" placeholder="Your name" />
+                </div>
+                <div class="mb-3">
+                    <input name="email" required type="email" class="form-control" placeholder="Your email" />
+                </div>
+                <div class="mb-3">
+                    <textarea name="message" required class="form-control" rows="3"
+                        placeholder="Write your message"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Send</button>
+            </form>
+            <div id="successMessage"></div>
+        </div>
+    </section>
+
+    <footer class="text-center my-4">
+        <p>© 2025 Karan.dev | All Rights Reserved</p>
+        <div>
+            <a href="https://www.instagram.com/rathour_karaan/" target="_blank" class="text-danger mx-2 fs-3"><i
+                    class="fab fa-instagram"></i></a>
+            <a href="https://wa.me/917452916102" target="_blank" class="text-success mx-2 fs-3"><i
+                    class="fab fa-whatsapp"></i></a>
+            <a href="https://github.com/dashboard" target="_blank" class="text-light mx-2 fs-3"><i
+                    class="fab fa-github"></i></a>
+            <a href="https://www.linkedin.com/in/karan-rathour-265128315/" target="_blank"
+                class="text-primary mx-2 fs-3"><i class="fab fa-linkedin"></i></a>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+    const btn = document.getElementById('viewButton');
+    const img = document.getElementById('certificateImage');
+    btn.onclick = function() {
+      // Toggle image display on each click
+      if (img.style.display === 'none') {
+        img.style.display = 'block';
+        btn.textContent = ': Hide Certificate';
+      } else {
+        img.style.display = 'none';
+        btn.textContent = ': View Certificate';
+      }
+    }
+      </script>
+</body>
+
+</html>
