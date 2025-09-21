@@ -88,6 +88,9 @@ def home():
 #     return jsonify(cart)
 
 
+@app.route("/health")
+def health():
+    return "OK", 200
 
 @app.route('/forgot_pass')
 def Forgot_pass():
