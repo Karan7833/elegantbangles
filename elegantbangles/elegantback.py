@@ -87,14 +87,12 @@ def home():
 #     cart = session.get("cart", [])
 #     return jsonify(cart)
 
-
-@app.route("/health")
-def health():
-    return "OK", 200
-
 @app.route('/forgot_pass')
 def Forgot_pass():
     return render_template('forgotpass.html')
+@app.route("/health")
+def health():
+    return "OK", 200
 
 @app.route('/index')
 def coustumer_care():
