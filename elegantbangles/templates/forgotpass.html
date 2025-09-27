@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <link rel="icon" type="image/png" href="{{ url_for('static', filename='bblogo.png') }}">
     <title>Forgot Password</title>
@@ -108,13 +109,33 @@
     <div class="forgot-container">
         <img class="bangles-bg" src="https://user-gen-media-assets.s3.amazonaws.com/gpt4o_images/d3213285-bd5e-47e9-a316-57ea8679ab8a.png" alt="Bangles Illustration">
         <h2>Forgot Password?</h2>
-        <p>Enter your registered email, and we’ll send you instructions to reset your password.</p>
-        <form>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            <ul class="flashes">
+              {% for category, message in messages %}
+                <li class="flash {{ category }}">{{ message }}</li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+        {% endwith %}
+        <form method="POST">
+            {% if not otp_sent %}
             <div class="input-group">
                 <label for="email">Email Address</label>
-                <input type="email" id="email" placeholder="Enter your email" required>
+                <input type="email" id="email" name="email" placeholder="Enter your email" required value="{{ email or '' }}">
             </div>
-            <button class="submit-btn" type="submit">Send Reset Link</button>
+            <button class="submit-btn" type="submit">Send OTP</button>
+            {% else %}
+            <div class="input-group">
+                <label for="otp">Enter OTP</label>
+                <input type="text" id="otp" name="otp" placeholder="6-digit OTP" required pattern="\d{6}" maxlength="6">
+            </div>
+            <div class="input-group">
+                <label for="password">New Password</label>
+                <input type="password" id="password" name="password" placeholder="Enter new password" required minlength="6">
+            </div>
+            <button class="submit-btn" type="submit">Reset Password</button>
+            {% endif %}
         </form>
         <div style="margin-top:16px;">
             Back to <a href="{{ url_for('login') }}"class="back-link">Login</a>
