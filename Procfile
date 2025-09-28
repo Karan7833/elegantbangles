@@ -1,1 +1,1 @@
-web:gunicorn elegantback:app
+web: gunicorn elegantback:app
