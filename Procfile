@@ -1,0 +1,1 @@
+web: gunicorn elegantbangles.main:app
