@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <link rel="icon" type="image/png" href="{{ url_for('static', filename='bblogo.png') }}">
+    <title>Forgot Password</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            background: linear-gradient(120deg, #f8fafc, #fbeff7 85%);
+            font-family: 'Segoe UI', Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        .forgot-container {
+            width: 370px;
+            background: #fff;
+            border-radius: 16px;
+            padding: 38px 30px 32px 30px;
+            box-shadow: 0 8px 48px 0 rgba(60,72,104,0.13);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .bangles-bg {
+            position: absolute;
+            bottom: -20px;
+            right: -22px;
+            width: 90px;
+            opacity: 0.14;
+            z-index: 0;
+            pointer-events: none;
+        }
+        .forgot-container h2 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: #36395a;
+        }
+        .forgot-container p {
+            color: #888;
+            margin-bottom: 22px;
+            font-size: 1rem;
+        }
+        .input-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        .input-group label {
+            font-size: 1rem;
+            font-weight: 500;
+            margin-bottom: 8px;
+            display: block;
+        }
+        .input-group input {
+            width: 100%;
+            padding: 11px 15px;
+            border-radius: 7px;
+            border: 1.5px solid #d3d3d3;
+            background: #f8f8fa;
+            font-size: 1rem;
+            outline: none;
+            margin-bottom: 6px;
+            transition: border-color 0.2s;
+        }
+        .input-group input:focus {
+            border-color: #ea5555;
+        }
+        .submit-btn {
+            width: 100%;
+            padding: 12px;
+            background: #0ea5e9;
+            color: #fff;
+            border: none;
+            border-radius: 7px;
+            font-size: 1.08rem;
+            font-weight: 600;
+            cursor: pointer;
+            letter-spacing: 1px;
+            transition: background 0.2s;
+            margin-top: 7px;
+            margin-bottom: 7px;
+        }
+        .submit-btn:hover {
+            background: #0f4b6d;
+        }
+        .back-link {
+            color: #ea5555;
+            text-decoration: none;
+            font-size: 0.98rem;
+            position: relative;
+            z-index: 2;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+        @media (max-width:500px) {
+            .forgot-container {width:94vw;padding:20px 4vw;}
+            .bangles-bg {width: 65px;}
+        }
+    </style>
+</head>
+<body>
+    <div class="forgot-container">
+        <img class="bangles-bg" src="https://user-gen-media-assets.s3.amazonaws.com/gpt4o_images/d3213285-bd5e-47e9-a316-57ea8679ab8a.png" alt="Bangles Illustration">
+        <h2>Forgot Password?</h2>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            <ul class="flashes">
+              {% for category, message in messages %}
+                <li class="flash {{ category }}">{{ message }}</li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+        {% endwith %}
+        <form method="POST">
+            {% if not otp_sent %}
+            <div class="input-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email" placeholder="Enter your email" required value="{{ email or '' }}">
+            </div>
+            <button class="submit-btn" type="submit">Send OTP</button>
+            {% else %}
+            <div class="input-group">
+                <label for="otp">Enter OTP</label>
+                <input type="text" id="otp" name="otp" placeholder="6-digit OTP" required pattern="\d{6}" maxlength="6">
+            </div>
+            <div class="input-group">
+                <label for="password">New Password</label>
+                <input type="password" id="password" name="password" placeholder="Enter new password" required minlength="6">
+            </div>
+            <button class="submit-btn" type="submit">Reset Password</button>
+            {% endif %}
+        </form>
+        <div style="margin-top:16px;">
+            Back to <a href="{{ url_for('login') }}"class="back-link">Login</a>
+        </div>
+    </div>
+</body>
+</html>
