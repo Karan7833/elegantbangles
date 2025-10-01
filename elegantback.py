@@ -63,6 +63,12 @@ def is_valid_email(email):
 # -------------------
 # Routes
 # -------------------
+# for wakingup service 
+@app.route("/health")
+def health():
+    return "OK", 200
+
+
 @app.route('/')
 def home():
     # Check if user is logged in
@@ -157,11 +163,7 @@ def send_email(to, subject, body):
             server.sendmail(app.config['MAIL_USERNAME'], [to], msg.as_string())
     except Exception as e:
         print('Email send failed:', e)
-
-@app.route("/health")
-def health():
-    return "OK", 200
-
+        
 @app.route('/index')
 def coustumer_care():
     return render_template('coustcare.html')
